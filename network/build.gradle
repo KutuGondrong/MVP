@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+apply plugin: 'kotlin-kapt'
 
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion 18
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -25,12 +25,45 @@ android {
 
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation deps.supportAppCompat
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+    //dagger
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+    implementation deps.daggerAndroid
+    implementation deps.daggerAndroidSupport
+    kapt deps.daggerProcessor
+
+    // logan square json converter
+    kapt deps.logansquareCompiler
+    implementation deps.logansquare
+    implementation deps.logansquareConverter
+
+    // retrofit
+    implementation deps.retrofit
+    implementation deps.retrofitRxJava
+    implementation deps.retrofitRxJava2
+    implementation deps.okHttp
+    implementation deps.okHttpLoging
+
+    // RX java
+    implementation deps.rxAndroid
+    implementation deps.rxJava
+
+    // RX java 2
+    implementation deps.rxJava2
+    implementation deps.rxJava2Android
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+repositories {
+    mavenCentral()
 }
