@@ -8,6 +8,13 @@ open class ResponseItem {
 
     @JsonField(name = ["total_count"])
     var total_count = 0
-
+    @JsonField(name = ["items"])
+    var items = ArrayList<Item>()
     constructor()
+}
+
+@JsonObject
+class Item {
+    @JsonField(name = ["full_name"])
+    var full_name = ""
 }
